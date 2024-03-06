@@ -24,8 +24,9 @@ function Register() {
     }
 
     const handleRegister = () => {
-        let income_catagory = ["Commission", "Salary", "Bonus"];
-        let expense_catagory = ["Utilities", "Grocery", "Rent", "Health", "Education"]
+        let Income = ["Commission", "Salary", "Bonus"];
+        let Expense = ["Utilities", "Grocery", "Rent", "Health", "Education"]
+        let transData = []
         if (Name === "" || Email === "" || Pass === "" || confPass === "") {
             alert("Please fill all fields");
         }else if (!Email.includes("com") || !Email.includes("@") ) {
@@ -42,8 +43,9 @@ function Register() {
                 Email,
                 Pass,
                 confPass,
-                income_catagory,
-                expense_catagory
+                Income,
+                Expense,
+                transData
             }
 
             users.push(newUser);
