@@ -35,12 +35,7 @@ function Dashboard() {
         }
     }, [activeuser, navigate])
 
-    //Date intilizing in date input
 
-    // change catagory on changing transection type
-    const handleTransectiontype = (e) => {
-        setTransectionType(e.target.value);
-    }
     useEffect(() => {
         setcatagory(transectionType === 'Expense' ? activeUserData.Expense : activeUserData.Income);
     }, [transectionType])
@@ -50,17 +45,7 @@ function Dashboard() {
         setCatvalue(catagory[0]);
     }, [catagory])
 
-    const handleCatagory = (e) => {
-        setCatvalue(e.target.value)
-    }
-
-
-    const handleNote = (e) => {
-        setNote(e.target.value)
-    }
-    const handleAmount = (e) => {
-        setAmount(e.target.value)
-    }
+   
     
    
 
@@ -108,8 +93,6 @@ function Dashboard() {
 
     }
 
-
-
     return (
         <main
             className="text-black md:w-[85%]"
@@ -149,7 +132,7 @@ function Dashboard() {
                             name="transactiontype"
                             id="transactiontype"
                             className="rounded md:px-4 shadow-lg border-2 "
-                            onChange={handleTransectiontype}
+                            onChange={(e)=> setTransectionType(e.target.value)}
                         >
                             <option
                                 value="Expense"
@@ -175,7 +158,7 @@ function Dashboard() {
                             name="category"
                             id="category"
                             className="rounded md:px-4 shadow-lg border-2"
-                            onChange={handleCatagory}
+                            onChange={(e)=> setCatvalue(e.target.value)}
                         >
                             {catagory.map((category, index) => (
                                 <option key={index} value={category}>{category}</option>
@@ -200,7 +183,7 @@ function Dashboard() {
                             id="note"
                             className="text-black md:text-lg rounded shadow-lg border-2 h-auto md:w-96"
                             placeholder="About transection"
-                            onChange={handleNote}
+                            onChange={(e)=>setNote(e.target.value)}
                             value={note}
                         />
                     </div>
@@ -217,7 +200,7 @@ function Dashboard() {
                             placeholder="Enter amount"
                             name="Amount"
                             id="amount"
-                            onChange={handleAmount}
+                            onChange={(e)=>setAmount(e.target.value)}
                             value={amount}
                         />
                     </div>
