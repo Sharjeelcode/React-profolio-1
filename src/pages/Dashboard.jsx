@@ -8,7 +8,15 @@ function Dashboard() {
     let userdata = localStorage.getItem('users')
     let activeuser = localStorage.getItem('activeUser')
     let activeUserData;
+    const [today, setToday] = useState(new Date().toISOString().split('T')[0]);
+    const [transectionType, setTransectionType] = useState("Expense")
+    const [catagory, setcatagory] = useState([])
+    const [catValue, setCatvalue] = useState()
+    const [note, setNote] = useState("")
+    const [amount, setAmount] = useState("")
     const navigate = useNavigate()
+
+
     if (userdata) {
         users = JSON.parse(userdata)
     }
@@ -18,25 +26,23 @@ function Dashboard() {
         activeUserData = user
     });
 
+
+
     //checking authentication if user is not active redirecting to signin page
     useEffect(() => {
         if (!activeuser) {
             navigate('/signin')
         }
-    })
+    }, [activeuser, navigate])
 
     //Date intilizing in date input
-    const [today, setToday] = useState(new Date().toISOString().split('T')[0]);
 
     // change catagory on changing transection type
-    const [transectionType, setTransectionType] = useState("Expense")
-    const [catagory, setcatagory] = useState([])
     const handleTransectiontype = (e) => {
         setTransectionType(e.target.value);
     }
     useEffect(() => {
         setcatagory(transectionType === 'Expense' ? activeUserData.Expense : activeUserData.Income);
-
     }, [transectionType])
 
     // Update category value based on selected option
@@ -44,13 +50,10 @@ function Dashboard() {
         setCatvalue(catagory[0]);
     }, [catagory])
 
-    const [catValue, setCatvalue] = useState()
     const handleCatagory = (e) => {
         setCatvalue(e.target.value)
     }
 
-    const [note, setNote] = useState()
-    const [amount, setAmount] = useState()
 
     const handleNote = (e) => {
         setNote(e.target.value)
@@ -58,25 +61,54 @@ function Dashboard() {
     const handleAmount = (e) => {
         setAmount(e.target.value)
     }
-
-    const [tableData ,setTableData] = useState(activeUserData.transData)
-
-
-
+    
    
-    
+
+    const [tableData, setTableData] = useState(activeUserData.transData)
+
+    useEffect(()=>{
+    })
+
+
+
+    let obj = {
+        today,
+        transectionType,
+        catValue,
+        note,
+        amount,
+    }
+
     const handleSave = () => {
-        let obj = {
-            today,
-            transectionType,
-            catValue,
-            note,
-            amount,
+        if (note === "" || amount === "") {
+            alert("Fileds are required")
+        }else{
+            setTableData(prevStudents => [...prevStudents, obj]);
+            resetfields()
+            updateStorage()
         }
-        setTableData(prevStudents => [...prevStudents, obj]);
-    }  
-    
-console.log(tableData);
+    }
+    const updateStorage = () => {
+        const updatedUsers = users.map(user => {
+            if (user.Email === activeuser) {
+                const updatedUser = {
+                    ...user,
+                    transData: [...user.transData, obj] // Append new transaction to existing transactions
+                };
+                return updatedUser;
+            }
+            return user;
+        });
+        localStorage.setItem('users', JSON.stringify(updatedUsers));
+    };
+
+    const resetfields = () => {
+        setNote('')
+        setAmount('')
+
+    }
+
+
 
     return (
         <main
@@ -169,6 +201,7 @@ console.log(tableData);
                             className="text-black md:text-lg rounded shadow-lg border-2 h-auto md:w-96"
                             placeholder="About transection"
                             onChange={handleNote}
+                            value={note}
                         />
                     </div>
                     <div
@@ -185,6 +218,7 @@ console.log(tableData);
                             name="Amount"
                             id="amount"
                             onChange={handleAmount}
+                            value={amount}
                         />
                     </div>
                 </div>
@@ -220,17 +254,21 @@ console.log(tableData);
                         </tr>
                     </thead>
                     <tbody
+                        id='t_body'
                     >
                         {
-                            tableData.map((data , index )=>{
-                                return(
-                                <tr key={index}>
-                                    <td>{today}</td>
-                                    <td>{transectionType}</td>
-                                    <td>{catValue}</td>
-                                    <td>{amount}</td>
-                                    <td>{note}</td>
-                                </tr>
+                            tableData.map((user, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td>{user.today}</td>
+                                        <td>{user.transectionType}</td>
+                                        <td>{user.catValue}</td>
+                                        <td>{user.amount}</td>
+                                        <td>{user.note}</td>
+                                        <td>
+                                            <button>❌</button>
+                                            </td>
+                                    </tr>
                                 )
 
                             })

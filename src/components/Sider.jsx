@@ -60,7 +60,7 @@ function Sider() {
             >
                 Profile
             </NavLink>
-            <NavLink
+            <NavLink to={'signin'}
                 className="bg-gradient-to-r from-purple-400 to-purple-600 hover:from-purple-600 hover:to-purple-800 text-white text-center font-bold mx-4 py-3 px-6 rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:brightness-110 hover:animate-pulse active:animate-bounce"
             >
                 Logout
