@@ -1,7 +1,20 @@
 
+import { useEffect, useState } from "react";
 import menu from "../assets/menu.png"; 
 import user from "../assets/user.png"
 function Header() {
+    const [username ,setusername] = useState()
+
+    useEffect(()=>{
+        const users = localStorage.getItem('users')
+        const activeUser = localStorage.getItem('activeUser')
+        if (users && activeUser) {
+            const userData = JSON.parse(users)
+            const activeUserData = userData.find(user => user.Email === activeUser);
+            setusername(activeUserData.Name.toUpperCase())
+        }
+    },[])
+
     return (
         <>
             <nav
@@ -14,7 +27,7 @@ function Header() {
                 </div>
                 
                 <div className="flex items-center">
-                    <span id="username" className=" md:text-lg mr-2"></span>
+                    <span id="username" className=" md:text-lg mr-2">{username}</span>
                     <img src={user} alt="" className="w-8 h-8 mr-2 rounded-full"/>
                 </div>
             </nav>

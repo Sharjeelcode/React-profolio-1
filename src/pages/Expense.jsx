@@ -4,12 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 function Expense() {
     const [users, setusers] = useState([])
-    const [activeuserdata, setactiveuserdata] = useState([])
     const [today, setToday] = useState(new Date().toISOString().split('T')[0]);
     const [catagory, setcatagory] = useState([])
     const [note, setnote] = useState()
     const [amount, setamount] = useState()
-    const [catValue, setCatvalue] = useState("")
+    const [catValue, setCatvalue] = useState()
     const [tableData, setTableData] = useState([])
     const transectionType = "Expense"
     const navigate = useNavigate()
@@ -21,7 +20,6 @@ function Expense() {
             setusers(parseuser)
             const activeUserData = parseuser.find(user => user.Email === activeuser);
             if (activeUserData) {
-                setactiveuserdata(activeUserData)
                 setcatagory(activeUserData.Expense)
                 const table = []
                 activeUserData.transData.filter((tab)=>{
@@ -119,6 +117,7 @@ function Expense() {
                             name="category"
                             id="category"
                             className="rounded md:px-4 shadow-lg border-2"
+                            onChange={(e)=>setCatvalue(e.target.value)}
                         >
                             {catagory.map((category, index) => (
                                 <option key={index} value={category}>{category}</option>

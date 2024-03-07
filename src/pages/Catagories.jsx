@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -46,9 +46,20 @@ function Catagories() {
 
     const [tableData, setTableData] = useState(activeUserData.transData)
 
-useEffect(()=>{
-    
-})
+    const changeTableData = useCallback(()=>{
+        const table = []
+        activeUserData.transData.filter((tab) => {
+            if (tab.catValue === catValue) {
+                table.push(tab)
+            }
+        })
+        setTableData(table)
+    },[catValue])
+
+
+    useEffect(() => {
+        changeTableData()
+    }, [changeTableData])
 
 
 
@@ -104,7 +115,7 @@ useEffect(()=>{
                             name="category"
                             id="category"
                             className="rounded md:px-4 shadow-lg border-2"
-                            onChange={(e) => setcatagory(e.target.value)}
+                            onChange={(e) => setCatvalue(e.target.value)}
                         >
                             {catagory.map((category, index) => (
                                 <option key={index} value={category}>{category}</option>
@@ -119,15 +130,33 @@ useEffect(()=>{
                 <table
                     className="md:w-full border-2"
                 >
-                    <tr className="t_head">
-                        <th>Date</th>
-                        <th>Trans type</th>
-                        <th>Category</th>
-                        <th>Amount</th>
-                        <th>Note</th>
-                    </tr>
+                    <thead>
+                        <tr className="t_head">
+                            <th>Date</th>
+                            <th>Trans type</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Note</th>
+                        </tr>
+                    </thead>
                     <tbody id="t_body">
+                        {
+                            tableData.map((user, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td>{user.today}</td>
+                                        <td>{user.transectionType}</td>
+                                        <td>{user.catValue}</td>
+                                        <td>{user.amount}</td>
+                                        <td>{user.note}</td>
+                                        <td>
+                                            <button>❌</button>
+                                        </td>
+                                    </tr>
+                                )
 
+                            })
+                        }
                     </tbody>
                 </table>
 

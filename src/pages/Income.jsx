@@ -9,7 +9,7 @@ function Income() {
     const [catagory, setcatagory] = useState([])
     const [note, setnote] = useState()
     const [amount, setamount] = useState()
-    const [catValue, setCatvalue] = useState("")
+    const [catValue, setCatvalue] = useState()
     const [tableData, setTableData] = useState([])
     const transectionType = "Income"
     const navigate = useNavigate()

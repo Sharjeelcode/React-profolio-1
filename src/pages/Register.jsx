@@ -42,7 +42,6 @@ function Register() {
                 Name,
                 Email,
                 Pass,
-                confPass,
                 Income,
                 Expense,
                 transData
